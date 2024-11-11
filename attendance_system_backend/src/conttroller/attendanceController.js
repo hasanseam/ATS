@@ -1,5 +1,5 @@
 // attendanceController.js
-const { getDBConnection } = require('./db');
+const { getDBConnection } = require('../database/db');
 
 // Create attendance record (Save person name)
 const createAttendance = async (personName) => {

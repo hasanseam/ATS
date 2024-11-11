@@ -1,25 +1,29 @@
 version: "3.8"
 
 services:
-  # Node.js app service
   app:
-    build: .                     # Build the image using the Dockerfile in the current directory
+    build:
+      context: .                  # Use the Dockerfile in the current directory
+    volumes:
+      - .:/usr/src/app            # Mount the current directory to the container
+      - /usr/src/app/node_modules # Avoid overwriting node_modules with the bind mount
     ports:
-      - "3000:3000"               # Expose the Node.js app on port 3000
+      - "3000:3000"               # Expose the app on port 3000
     environment:
-      - DB_HOST=oracle-db         # The name of the Oracle DB service (we will refer to this below)
-      - DB_PORT=1521              # Port inside the Oracle DB container (Oracle default port)
-      - DB_USER=system            # Your Oracle DB username
-      - DB_PASSWORD=oracle        # Your Oracle DB password
-      - DB_SERVICE_NAME=XE        # The Oracle XE service name
+      - NODE_ENV=development
+      - DB_HOST=oracle-db
+      - DB_PORT=1521
+      - DB_USER=system
+      - DB_PASSWORD=oracle
+      - DB_SERVICE_NAME=XE
     depends_on:
-      - oracle-db                 # This ensures the Node.js app starts after the DB is up
+      - oracle-db
+    command: ["npm", "run", "start-dev"] # Run app with nodemon for live reload
 
-  # Oracle DB service
   oracle-db:
-    image: gvenzl/oracle-xe       # Use the official Oracle XE Docker image
+    image: gvenzl/oracle-xe
     ports:
-      - "1522:1521"               # Expose the Oracle DB port
+      - "1522:1521"
     environment:
-      - ORACLE_PASSWORD=oracle    # Set the Oracle DB password
-    container_name: oracle-db     # Optional: Name your container (for easier reference)
+      - ORACLE_PASSWORD=oracle
+    container_name: oracle-db
