@@ -1,18 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
-const { login } = require("../conttrollers/authController");
+const AuthController = require("../conttrollers/authController");
 
 // Login route
 router.post("/login", async (req, res) => {
-    console.log(req.body);
+    
     const { username, password } = req.body;
   
     try {
-      const user = await login(username, password);
+      const tokens = await AuthController.login(username, password);
+      console.log(tokens);
       return res.status(200).json({
         message: "Authentication successful",
-        user,
+        accessToken: tokens.accessToken,
+        refreshToken:tokens.refreshToken
       });
     } catch (err) {
       return res.status(401).json({

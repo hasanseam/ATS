@@ -9,6 +9,9 @@ const attendanceRoutes = require('./routes/attendanceRoutes');
 const testRoutes = require('./routes/testConnection');
 const authRoutes = require('./routes/authRoutes');
 
+//Middleware
+const authMiddleware = require('./middleware/auth.middleware');
+
 // Load environment variables from a .env file (if you want to keep sensitive information like DB credentials safe)
 dotenv.config();
 
@@ -19,7 +22,7 @@ const app = express();
 app.use(express.json());
 
 //router define
-app.use('/attendance',attendanceRoutes);
+app.use('/attendance',authMiddleware,attendanceRoutes);
 app.use('/test-connection',testRoutes);
 app.use('/auth',authRoutes);
 
