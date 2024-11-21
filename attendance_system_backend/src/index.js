@@ -21,6 +21,13 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  next();
+});
+
 //router define
 app.use('/attendance',authMiddleware,attendanceRoutes);
 app.use('/test-connection',testRoutes);

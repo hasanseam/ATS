@@ -8,8 +8,9 @@ import 'domain/usecases/create_attendance.dart';
 GetIt locator = GetIt.instance;
 
 void setupLocator() {
-  locator.registerLazySingleton(() => AuthBloc());
+
   locator.registerLazySingleton<ApiService>(() => ApiService()); // Registering ApiService
+  locator.registerLazySingleton(() => AuthBloc(apiService: locator()));
 // Register AttendanceRepository, passing in the ApiService dependency
   locator.registerLazySingleton<AttendanceRepository>(() => AttendanceRepository(apiService: locator()));
 // Now register CreateAttendance with the already registered AttendanceRepository

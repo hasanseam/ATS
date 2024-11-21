@@ -1,21 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/services/api_service.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthInitial()) {
+  final ApiService apiService;
+  AuthBloc({required  this.apiService}) : super(AuthInitial()) {
     // Handle login event
     on<LoginRequested>((event, emit) async {
-      emit(AuthLoading());
+      emit(AuthLoading()); // Emit loading state while logging in
 
-      // Simulated delay for login process
-      await Future.delayed(Duration(seconds: 2));
-
-      // Example login logic
-      if (true) {
-        emit(AuthAuthenticated());
-      } else {
-        emit(AuthError("Invalid username or password"));
+      try {
+        print("Hello");
+        final tokens = await apiService.login(event.username, event.password);
+        final accessToken = tokens['accessToken']!;
+        final refreshToken = tokens['refreshToken']!;
+        // Save tokens securely (e.g., using SharedPreferences or SecureStorage)
+        emit(AuthAuthenticated()); // Emit authenticated state with tokens
+      } catch (e) {
+        emit(AuthError("Authentication failed: $e"));  // Emit error if login fails
       }
     });
 

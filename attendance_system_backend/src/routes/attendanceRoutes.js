@@ -5,7 +5,7 @@ const {
   getAllAttendance,
   updateAttendance,
   deleteAttendance,
-} = require("../conttrollers/attendanceController");
+} = require("../controllers/attendanceController");
 
 // Route to create a new attendance record
 

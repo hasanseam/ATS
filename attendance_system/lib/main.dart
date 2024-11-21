@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         // Directly providing AuthBloc globally
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(),
+          create: (context) => AuthBloc(apiService:apiService),
         ),
         // Directly providing AttendanceBloc globally
         BlocProvider<AttendanceBloc>(

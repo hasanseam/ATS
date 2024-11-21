@@ -7,10 +7,6 @@ const BASE_DN = "dc=example,dc=com";
 const BIND_DN = "cn=read-only-admin,dc=example,dc=com";
 const BIND_PASSWORD = "password";
 
-// Create an LDAP client instance
-const client = new LdapClient({
-  url: LDAP_SERVER,
-});
 
 /**
  * Authenticate a user against the LDAP server.
@@ -20,8 +16,14 @@ const client = new LdapClient({
  */
 
 const authenticateUser = async (username, password) => {
+  const client = new LdapClient({
+    url: LDAP_SERVER,
+   });
+   
   try {
+
     await client.bind(BIND_DN, BIND_PASSWORD);
+    console.log("In authenticate user");
 
     const searchOptions = {
       filter: `(uid=${username})`,
