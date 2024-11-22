@@ -19,12 +19,9 @@ const authenticateUser = async (username, password) => {
   const client = new LdapClient({
     url: LDAP_SERVER,
    });
-   
+
   try {
-
     await client.bind(BIND_DN, BIND_PASSWORD);
-    console.log("In authenticate user");
-
     const searchOptions = {
       filter: `(uid=${username})`,
       scope: "sub",

@@ -7,10 +7,8 @@ const AuthController = require("../controllers/authController");
 router.post("/login", async (req, res) => {
     
     const { username, password } = req.body;
-    console.log("Inroute");
     try {
       const tokens = await AuthController.login(username, password);
-      
       //console.log(tokens);
       res.status(200).json({
         message: "Authentication successful",

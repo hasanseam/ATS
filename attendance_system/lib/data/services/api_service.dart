@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:attendance_system/data/models/attendance.dart';
 
+import '../repositories/token_repoistory.dart';
+
 class ApiService {
+  final TokenRepository tokenRepository;
+  ApiService({required this.tokenRepository});
   final String baseUrl = "http://192.168.10.102:3000";  // Replace with actual server URL
   final http.Client _client = http.Client();
   // Function to send the attendance data to the server
@@ -29,8 +33,6 @@ class ApiService {
 
   Future<Map<String, String>> login(String username, String password) async {
     final url = Uri.parse('$baseUrl/auth/login');
-    print("Starting login request...");
-
     try {
       final response = await _client.post(
         url,
@@ -41,16 +43,7 @@ class ApiService {
           'username': username,
           'password': password,
         }),
-      ).timeout(
-        const Duration(seconds: 5),
-        onTimeout: () {
-          print("Request timed out");
-          throw TimeoutException('Request took too long');
-        },
       );
-
-      print("Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -59,8 +52,6 @@ class ApiService {
           'refreshToken': data['refreshToken'],
         };
       } else {
-        print("Authentication failed with status: ${response.statusCode}");
-        print("Error response: ${response.body}");
         throw Exception('Authentication failed: ${response.body}');
       }
     } catch (e) {
@@ -69,16 +60,4 @@ class ApiService {
     }
   }
 
-  Future<bool> checkConnection() async {
-    try {
-      final url = Uri.parse('$baseUrl/test-connection');
-      final response = await _client.get(url)
-          .timeout(const Duration(seconds: 5));
-      return response.statusCode == 200;
-    } catch (e) {
-      print("Connection check failed: $e");
-      return false;
-    }
-  }
-  
 }

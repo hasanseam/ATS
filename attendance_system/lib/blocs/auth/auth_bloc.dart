@@ -11,7 +11,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading()); // Emit loading state while logging in
 
       try {
-        print("Hello");
         final tokens = await apiService.login(event.username, event.password);
         final accessToken = tokens['accessToken']!;
         final refreshToken = tokens['refreshToken']!;

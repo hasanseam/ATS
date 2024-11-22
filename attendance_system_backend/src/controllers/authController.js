@@ -7,9 +7,7 @@ class AuthController{
             throw new Error("Username and password are required.");
         }
         try {
-            console.log("In Auth Control")
             const user = await authenticateUser(username, password);
-            console.log("Succesful")
             //generate jwt token
             const accessToken = JWTService.generateToken(user);
             const refreshToken = JWTService.generateRefreshToken(user);
