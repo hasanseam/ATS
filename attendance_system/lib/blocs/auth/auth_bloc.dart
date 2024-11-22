@@ -11,10 +11,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading()); // Emit loading state while logging in
 
       try {
-        final tokens = await apiService.login(event.username, event.password);
-        final accessToken = tokens['accessToken']!;
-        final refreshToken = tokens['refreshToken']!;
-        // Save tokens securely (e.g., using SharedPreferences or SecureStorage)
+        await apiService.login(event.username, event.password);
         emit(AuthAuthenticated()); // Emit authenticated state with tokens
       } catch (e) {
         emit(AuthError("Authentication failed: $e"));  // Emit error if login fails

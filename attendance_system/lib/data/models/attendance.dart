@@ -16,22 +16,22 @@ class Attendance {
   // Factory method to create an Attendance object from a JSON response
   factory Attendance.fromJson(Map<String, dynamic> json) {
     return Attendance(
-      studentID: json['student_id'],
-      studentName: json['student_name'],
-      inOut: json['in_out'],
+      studentID: json['studentID'],
+      studentName: json['studentName'],
+      inOut: json['inOut'],
       staff: json['staff'],
-      macAddress: json['mac_address'],
+      macAddress: json['macAddress'],
     );
   }
 
   // Method to convert Attendance object to JSON
   Map<String, dynamic> toJson() {
     return {
-      'student_id': studentID,
-      'student_name': studentName,
-      'in_out': inOut,
+      'studentID': studentID,
+      'studentName': studentName,
+      'inOut': inOut,
       'staff': staff,
-      'mac_address': macAddress,
+      'macAddress': macAddress,
     };
   }
 }

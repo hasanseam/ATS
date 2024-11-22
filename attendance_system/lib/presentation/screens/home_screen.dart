@@ -7,9 +7,7 @@ import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String staffName; // Pass staff name from the LoginScreen
-
   HomeScreen({required this.staffName});
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -118,9 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: InputDecoration(
                   labelText: "Student ID",
                   border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  enabled: false, // Make it read-only
                 ),
               ),
               SizedBox(height: 16),

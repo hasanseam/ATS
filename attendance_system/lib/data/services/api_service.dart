@@ -12,11 +12,13 @@ class ApiService {
   final http.Client _client = http.Client();
   // Function to send the attendance data to the server
   Future<void> createAttendance(Attendance attendance) async {
+    final token = await tokenRepository.getAccessToken();
     final url = Uri.parse('$baseUrl/attendance');
     final response = await http.post(
       url,
       headers: {
         'Content-Type': 'application/json',
+        'Authorization':'Bearer $token'
       },
       body: jsonEncode(attendance.toJson()),
     );
@@ -47,6 +49,7 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+        tokenRepository.saveTokens(accessToken: data['accessToken'], refreshToken: data['refreshToken']);
         return {
           'accessToken': data['accessToken'],
           'refreshToken': data['refreshToken'],

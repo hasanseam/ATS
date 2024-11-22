@@ -9,6 +9,7 @@ const {
 
 // Route to create a new attendance record
 router.post("/", async (req, res) => {
+  console.log(req.body)
   const { studentID, studentName, inOut, staff, macAddress } = req.body; // Match controller's method signature
   if (!studentID || !studentName || !inOut || !staff || !macAddress) {
     return res.status(400).json({
