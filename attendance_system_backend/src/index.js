@@ -1,5 +1,6 @@
 // Import the required modules
 const express = require('express');
+const app = express();
 const oracledb = require('oracledb');
 const dotenv = require('dotenv');
 
@@ -15,8 +16,6 @@ const authMiddleware = require('./middleware/auth.middleware');
 // Load environment variables from a .env file (if you want to keep sensitive information like DB credentials safe)
 dotenv.config();
 
-// Initialize express app
-const app = express();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -36,6 +35,10 @@ app.use('/auth',authRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
