@@ -22,7 +22,6 @@ class AttendanceCreatedSuccess extends AttendanceState {}
 
 class AttendanceCreatedFailure extends AttendanceState {
   final String error;
-
   AttendanceCreatedFailure(this.error);
 }
 

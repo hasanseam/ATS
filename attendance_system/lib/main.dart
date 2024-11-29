@@ -1,3 +1,4 @@
+import 'package:attendance_system/blocs/student/student_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/auth/auth_bloc.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<AttendanceBloc>(
           create: (context) => locator<AttendanceBloc>(),
         ),
+        BlocProvider<StudentBloc>(
+            create: (context)=> locator<StudentBloc>()
+        )
       ],
       child: MaterialApp(
         title: 'Attendance System',

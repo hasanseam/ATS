@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:attendance_system/data/models/attendance.dart';
 
+import '../models/student.dart';
 import '../repositories/token_repoistory.dart';
 
 class ApiService {
@@ -26,6 +27,31 @@ class ApiService {
     if (response.statusCode != 201) {
       print(response.statusCode);
       throw Exception('Failed to create attendance record');
+    }
+  }
+
+  Future<Student> getStudentById(int id) async {
+    final token = await tokenRepository.getAccessToken();
+    final url = Uri.parse('$baseUrl/student/$id');
+
+    try {
+      final response = await _client.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        return Student.fromJson(jsonResponse);
+      } else {
+        throw Exception('Failed to fetch student');
+      }
+    } catch (e) {
+      print("Network or parsing error: $e");
+      rethrow;
     }
   }
 
