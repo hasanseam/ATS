@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const testRoutes = require('./routes/testConnection');
 const authRoutes = require('./routes/authRoutes');
+const studentRoutes = require('./routes/studentRoute');
 
 //Middleware
 const authMiddleware = require('./middleware/auth.middleware');
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 app.use('/attendance',authMiddleware,attendanceRoutes);
 app.use('/test-connection',testRoutes);
 app.use('/auth',authRoutes);
+app.use('/student',studentRoutes);
 
 
 // Start the server
